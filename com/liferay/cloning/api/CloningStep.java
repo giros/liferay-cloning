@@ -12,18 +12,23 @@
  * details.
  */
 
-package com.liferay.cloning.database;
+package com.liferay.cloning.api;
+
+import com.liferay.portal.kernel.dao.db.DBProcessContext;
+import com.liferay.portal.kernel.upgrade.UpgradeException;
 
 /**
  * @author Gergely Mathe
  */
- public class CloningMySQL {
+public abstract class CloningStep implements UpgradeStep {
 
-	// Read properties from file
-	
-	// Invoke mysqld for export
-	
-	// Invoke rsync for copy
-	
-	// Invoke mysql for import
+	@Override
+	public void upgrade(DBProcessContext dbProcessContext)
+		throws UpgradeException {
+
+		doClone();
+	}
+
+	protected abstract void doClone() throws Exception;
+
 }

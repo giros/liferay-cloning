@@ -12,21 +12,20 @@
  * details.
  */
 
-package com.liferay.cloning.hostconfig;
+package com.liferay.cloning.updater;
+
+import com.liferay.cloning.api.CloningStep;
 
 /**
  * @author Gergely Mathe
  */
- public class CloningHostsUpdater {
+public class CloningUserDataUpdater extends CloningStep {
 
-	// Update company level virtual hosts
-	
-	// Update site level virtual hosts
-	
-	// Update remote live site configs
-	
-	// Update CDN hosts
-	
-	// Update authentication related hosts
+	@Override
+	protected void doClone() throws Exception {
+		// Read properties from file
 
- }
+		// Update personal user data
+	}
+
+}
