@@ -19,13 +19,17 @@ import com.liferay.cloning.api.CloningStep;
 /**
  * @author Gergely Mathe
  */
-public class CloningUserDataUpdater extends CloningStep {
+public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		// Read properties from file
+		readProperties();
 
-		// Update personal user data
+		// Update administrator password
+
+		// Update user passwords
+
+		// Update password policies
 	}
 
 }

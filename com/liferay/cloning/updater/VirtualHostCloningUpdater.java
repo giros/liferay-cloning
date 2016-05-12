@@ -19,21 +19,15 @@ import com.liferay.cloning.api.CloningStep;
 /**
  * @author Gergely Mathe
  */
-public class CloningHostsUpdater extends CloningStep {
+public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		// Read properties from file
+		readProperties();
 
 		// Update company level virtual hosts
 
 		// Update site level virtual hosts
-
-		// Update remote live site configs
-
-		// Update CDN hosts
-
-		// Update authentication related hosts
 	}
 
 }
