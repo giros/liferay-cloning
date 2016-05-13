@@ -15,9 +15,10 @@
 package com.liferay.cloning.registrator;
 
 import com.liferay.cloning.database.CloningDatabase;
-import com.liferay.cloning.updater.CloningHostsUpdater;
-import com.liferay.cloning.updater.CloningPasswordUpdater;
-import com.liferay.cloning.updater.CloningUserDataUpdater;
+import com.liferay.cloning.updater.PasswordCloningUpdater;
+import com.liferay.cloning.updater.PasswordPolicyCloningUpdater;
+import com.liferay.cloning.updater.UserDataCloningUpdater;
+import com.liferay.cloning.updater.VirtualHostCloningUpdater;
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 
 /**
@@ -37,14 +38,21 @@ public class CloningRegistrator implements UpgradeStepRegistrator {
 	public void register(Registry registry) {
 		registry.register(
 			"com.liferay.cloning", "0.0.1", "0.0.2",
-			new CloningHostsUpdater());
+			new VirtualHostCloningUpdater());
 	}
 
 	@Override
 	public void register(Registry registry) {
 		registry.register(
 			"com.liferay.cloning", "0.0.2", "0.0.3",
-			new CloningPasswordUpdater(), new CloningUserDataUpdater());
+			new PasswordCloningUpdater(), new PasswordPolicyCloningUpdater());
+	}
+
+	@Override
+	public void register(Registry registry) {
+		registry.register(
+			"com.liferay.cloning", "0.0.2", "0.0.3",
+			new UserDataCloningUpdater());
 	}
 
 }
