@@ -16,9 +16,14 @@ package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningStep;
 
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Gergely Mathe
  */
+@Component(
+	service = {UserDataCloningUpdater.class}
+)
 public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override

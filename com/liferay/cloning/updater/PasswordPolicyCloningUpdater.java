@@ -22,17 +22,15 @@ import org.osgi.service.component.annotations.Component;
  * @author Gergely Mathe
  */
 @Component(
-	service = {VirtualHostCloningUpdater.class}
+	service = {PasswordPolicyCloningUpdater.class}
 )
-public class VirtualHostCloningUpdater extends BaseCloningUpdater {
+public class PasswordPolicyCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
 		readProperties();
 
-		// Update company level virtual hosts
-
-		// Update site level virtual hosts
+		// Update password policies
 	}
 
 }

@@ -16,9 +16,14 @@ package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningStep;
 
+import org.osgi.service.component.annotations.Component;
+
 /**
  * @author Gergely Mathe
  */
+@Component(
+	service = {PasswordCloningUpdater.class}
+)
 public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
@@ -28,8 +33,6 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 		// Update administrator password
 
 		// Update user passwords
-
-		// Update password policies
 	}
 
 }
