@@ -15,8 +15,15 @@
 package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Gergely Mathe
@@ -30,9 +37,47 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 	protected void doClone() throws Exception {
 		readProperties();
 
-		// Update administrator password
+		List<Company> companies = _companyLocalService.getCompanies();
 
-		// Update user passwords
+		for (Company company : companies) {
+			updateUserPasswords(company);
+		}
 	}
+
+	protected void updateUserPasswords(Company company) {
+		int usersCount = _userLocalService.getCompanyUsersCount(
+			company.getCompanyId());
+
+		int start = 0;
+		int end = BATCH_SIZE;
+
+		while (start < usersCount) {
+			List<User> users = _userLocalService.getCompanyUsers(
+				company.getCompanyId(), start, end);
+
+			for (User user : users) {
+				_userLocalService.updatePassword(
+					user.getUserId(), newPassword, newPassword, false, true);
+			}
+
+			start += BATCH_SIZE;
+			end = start + BATCH_SIZE;
+		}
+	}
+
+	@Reference(unbind = "-")
+	protected void setUserLocalService(
+		CompanyLocalService companyLocalService) {
+
+		_companyLocalService = companyLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setUserLocalService(UserLocalService userLocalService) {
+		_userLocalService = userLocalService;
+	}
+
+	private CompanyLocalService _companyLocalService;
+	private UserLocalService _userLocalService;
 
 }
