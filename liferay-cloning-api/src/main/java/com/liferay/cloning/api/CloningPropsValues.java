@@ -32,4 +32,5 @@ public class CloningPropsValues {
 	public static final boolean PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES));
 
 	public static final boolean USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA));
+
 }
