@@ -22,7 +22,11 @@ public interface CloningPropsKeys {
 	public static final String PASSWORD_CLONING_UPDATER_NEW_PASSWORD = "password.cloning.updater.new.password";
 
 	public static final String PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS = "password.cloning.updater.update.passwords";
+	
+	public static final String PASSWORD_CLONING_UPDATER_USER_IDS = "password.cloning.updater.user.ids";
 
 	public static final String PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = "password.policy.cloning.updater.delete.password.policies";
+
+	public static final String USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = "user.data.cloning.updater.update.user.data";
 
 }

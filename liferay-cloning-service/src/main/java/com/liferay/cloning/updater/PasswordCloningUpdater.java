@@ -16,10 +16,9 @@ package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.List;
 
@@ -40,42 +39,18 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 			return;
 		}
 
-		List<Company> companies = _companyLocalService.getCompanies();
-
-		for (Company company : companies) {
-			updateUserPasswords(company);
-		}
-	}
-
-	protected void updateUserPasswords(Company company) {
-		int usersCount = _userLocalService.getCompanyUsersCount(
-			company.getCompanyId());
-
-		int start = 0;
-		int end = BATCH_SIZE;
-
 		String newPassword =
 			CloningPropsValues.PASSWORD_CLONING_UPDATER_NEW_PASSWORD;
 
-		while (start < usersCount) {
-			List<User> users = _userLocalService.getCompanyUsers(
-				company.getCompanyId(), start, end);
+		List<String> userIds = ListUtil.toList(
+			CloningPropsValues.PASSWORD_CLONING_UPDATER_USER_IDS); 
 
-			for (User user : users) {
-				_userLocalService.updatePassword(
-					user.getUserId(), newPassword, newPassword, false, true);
-			}
+		for (String userId : userIds) {
+			User user = _userLocalService.fetchUserById(Long.valueOf(userId));
 
-			start += BATCH_SIZE;
-			end = start + BATCH_SIZE;
+			_userLocalService.updatePassword(
+				user.getUserId(), newPassword, newPassword, false, true);
 		}
-	}
-
-	@Reference(unbind = "-")
-	protected void setUserLocalService(
-		CompanyLocalService companyLocalService) {
-
-		_companyLocalService = companyLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -83,7 +58,6 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 		_userLocalService = userLocalService;
 	}
 
-	private CompanyLocalService _companyLocalService;
 	private UserLocalService _userLocalService;
 
 }

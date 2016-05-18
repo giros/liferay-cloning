@@ -14,7 +14,12 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalService;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -28,9 +33,26 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		readProperties();
+		if (!CloningPropsValues.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA) {
+			return;
+		}
 
-		// Update personal user data
+		ActionableDynamicQuery userActionableDynamicQuery =
+			_userLocalService.getActionableDynamicQuery();
+
+		userActionableDynamicQuery.setInterval(BATCH_SIZE);
+
+		userActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<User>() {
+
+				@Override
+				public void performAction(User user) throws PortalException {
+					
+				}
+
+			});
+
+		userActionableDynamicQuery.performActions();
 	}
 
 }

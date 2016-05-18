@@ -15,6 +15,7 @@
 package com.liferay.cloning.api;
 
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.PropsUtil;
 
 /**
@@ -26,5 +27,9 @@ public class CloningPropsValues {
 
 	public static final boolean PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS));
 
+	public static final String[] PASSWORD_CLONING_UPDATER_USER_IDS = StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.PASSWORD_CLONING_UPDATER_USER_IDS));
+
 	public static final boolean PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES));
+
+	public static final boolean USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA));
 }
