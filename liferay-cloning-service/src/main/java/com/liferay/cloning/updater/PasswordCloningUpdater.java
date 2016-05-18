@@ -14,6 +14,7 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
@@ -35,7 +36,9 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		readProperties();
+		if (!CloningPropsValues.PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS) {
+			return;
+		}
 
 		List<Company> companies = _companyLocalService.getCompanies();
 
@@ -50,6 +53,9 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 		int start = 0;
 		int end = BATCH_SIZE;
+
+		String newPassword =
+			CloningPropsValues.PASSWORD_CLONING_UPDATER_NEW_PASSWORD;
 
 		while (start < usersCount) {
 			List<User> users = _userLocalService.getCompanyUsers(

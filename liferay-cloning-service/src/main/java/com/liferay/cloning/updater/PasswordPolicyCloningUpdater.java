@@ -15,6 +15,12 @@
 package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.RequiredPasswordPolicyException;
+import com.liferay.portal.kernel.model.PasswordPolicy;
+import com.liferay.portal.kernel.service.PasswordPolicyLocalService;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -28,9 +34,33 @@ public class PasswordPolicyCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		readProperties();
+		if (!CloningPropsValues.
+				PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES) {
 
-		// Update password policies
+			return;
+		}
+
+		List<PasswordPolicy> passwordPolicies =
+			_passwordPolicyLocalService.getPasswordPolicies(
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		for (PasswordPolicy passwordPolicy : passwordPolicies) {
+			try {
+				_passwordPolicyLocalService.deletePasswordPolicy(
+					passwordPolicy);
+			}
+			catch (RequiredPasswordPolicyException rppe) {
+			}
+		}
 	}
+
+	@Reference(unbind = "-")
+	protected void setPasswordPolicyLocalService(
+		PasswordPolicyLocalService passwordPolicyLocalService) {
+
+		_passwordPolicyLocalService = passwordPolicyLocalService;
+	}
+
+	private PasswordPolicyLocalService _passwordPolicyLocalService;
 
 }

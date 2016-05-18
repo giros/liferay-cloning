@@ -12,19 +12,17 @@
  * details.
  */
 
-package com.liferay.cloning.updater;
-
-import com.liferay.cloning.api.CloningStep;
+package com.liferay.cloning.api;
 
 /**
  * @author Gergely Mathe
  */
-public class BaseCloningUpdater extends CloningStep {
+public interface CloningPropsKeys {
 
-	public int BATCH_SIZE = 500;
+	public static final String PASSWORD_CLONING_UPDATER_NEW_PASSWORD = "password.cloning.updater.new.password";
 
-	@Override
-	protected void doClone() throws Exception {
-	}
+	public static final String PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS = "password.cloning.updater.update.passwords";
+
+	public static final String PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = "password.policy.cloning.updater.delete.password.policies";
 
 }
