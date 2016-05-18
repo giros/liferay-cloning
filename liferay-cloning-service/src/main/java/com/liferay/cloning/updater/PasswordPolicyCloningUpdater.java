@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.PasswordPolicyLocalService;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Gergely Mathe

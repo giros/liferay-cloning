@@ -15,7 +15,6 @@
 package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
-import com.liferay.cloning.api.CloningStep;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,6 +32,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Gergely Mathe
@@ -88,14 +88,14 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 	}
 
 	@Reference(unbind = "-")
-	protected void setUserLocalService(
+	protected void setAddressLocalService(
 		AddressLocalService addressLocalService) {
 
 		_addressLocalService = addressLocalService;
 	}
 
 	@Reference(unbind = "-")
-	protected void setUserLocalService(
+	protected void setContactLocalService(
 		ContactLocalService contactLocalService) {
 
 		_contactLocalService = contactLocalService;
