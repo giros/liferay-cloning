@@ -14,9 +14,12 @@
 
 package com.liferay.cloning.updater;
 
-import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.api.CloningPropsValues;
+import com.liferay.portal.kernel.model.VirtualHost;
+import com.liferay.portal.kernel.service.VirtualHostLocalService;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Gergely Mathe
@@ -28,11 +31,39 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doClone() throws Exception {
-		readProperties();
+		if (!CloningPropsValues.
+				VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS) {
 
-		// Update company level virtual hosts
+			return;
+		}
 
-		// Update site level virtual hosts
+		String[] oldVirtualHosts =
+			CloningPropsValues.VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS;
+		String[] newVirtualHosts =
+			CloningPropsValues.VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS;
+
+		for (int i = 0; i < oldVirtualHosts.length; i++) {
+			VirtualHost virtualHost =
+				_virtualHostLocalService.fetchfetchVirtualHost(
+					oldVirtualHosts[i]);
+
+			if (virtualHost == null) {
+				continue;
+			}
+
+			_virtualHostLocalService.updateVirtualHost(
+				virtualHost.getCompanyId(), virtualHost.getLayoutSetId(),
+				newVirtualHosts[i]);
+		}
 	}
+
+	@Reference(unbind = "-")
+	protected void setVirtualHostLocalService(
+		VirtualHostLocalService virtualHostLocalService) {
+
+		_virtualHostLocalService = virtualHostLocalService;
+	}
+
+	private VirtualHostLocalService _virtualHostLocalService;
 
 }

@@ -33,4 +33,10 @@ public class CloningPropsValues {
 
 	public static final boolean USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA));
 
+	public static final String[] VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS = StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS));
+
+	public static final String[] VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS = StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS));
+
+	public static final boolean VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS));
+
 }

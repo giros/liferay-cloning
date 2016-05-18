@@ -29,4 +29,10 @@ public interface CloningPropsKeys {
 
 	public static final String USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = "user.data.cloning.updater.update.user.data";
 
+	public static final String VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS = "virtual.host.cloning.updater.new.virtual.hosts";
+
+	public static final String VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS = "virtual.host.cloning.updater.old.virtual.hosts";
+
+	public static final String VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS = "virtual.host.cloning.updater.update.virtual.hosts";
+
 }
