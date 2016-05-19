@@ -12,13 +12,14 @@
  * details.
  */
 
-package com.liferay.cloning.api;
+package com.liferay.cloning.executor;
 
 /**
  * @author Gergely Mathe
  */
-public abstract class CloningStep {
+public class CloningExecutor {
 
-	protected abstract void doClone() throws Exception;
-
+	public static void main(String[] args) {
+		
+	}
 }
