@@ -17,8 +17,8 @@ package com.liferay.cloning.api;
 /**
  * @author Gergely Mathe
  */
-public abstract class CloningStep {
+public interface CloningStep {
 
-	protected abstract void doClone() throws Exception;
+	public void execute() throws Exception;
 
 }

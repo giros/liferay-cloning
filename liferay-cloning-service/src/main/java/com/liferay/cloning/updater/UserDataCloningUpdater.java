@@ -38,12 +38,12 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
-	service = {UserDataCloningUpdater.class}
+	service = {CloningStep.class, UserDataCloningUpdater.class}
 )
 public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 		if (!CloningPropsValues.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA) {
 			return;
 		}

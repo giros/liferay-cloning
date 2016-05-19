@@ -19,12 +19,11 @@ import com.liferay.cloning.api.CloningStep;
 /**
  * @author Gergely Mathe
  */
-public class BaseCloningUpdater extends CloningStep {
+public class BaseCloningUpdater implements CloningStep {
 
 	public int BATCH_SIZE = 500;
 
-	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 	}
 
 }

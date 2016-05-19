@@ -19,10 +19,9 @@ import com.liferay.cloning.api.CloningStep;
 /**
  * @author Gergely Mathe
  */
-public class CloningDatabase extends CloningStep {
+public class CloningDatabase implements CloningStep {
 
-	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 		// Read properties from file
 
 		// Invoke command for export

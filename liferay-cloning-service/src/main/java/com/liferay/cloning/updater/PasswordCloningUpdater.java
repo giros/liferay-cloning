@@ -29,12 +29,12 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
-	service = {PasswordCloningUpdater.class}
+	service = {CloningStep.class, PasswordCloningUpdater.class}
 )
 public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 		if (!CloningPropsValues.PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS) {
 			return;
 		}

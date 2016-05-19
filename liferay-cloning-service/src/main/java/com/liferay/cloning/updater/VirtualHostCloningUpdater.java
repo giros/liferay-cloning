@@ -25,12 +25,12 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
-	service = {VirtualHostCloningUpdater.class}
+	service = {CloningStep.class, VirtualHostCloningUpdater.class}
 )
 public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 		if (!CloningPropsValues.
 				VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS) {
 

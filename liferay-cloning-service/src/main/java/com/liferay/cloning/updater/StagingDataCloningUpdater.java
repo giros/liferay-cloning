@@ -29,12 +29,12 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
-	service = {StagingDataCloningUpdater.class}
+	service = {CloningStep.class, StagingDataCloningUpdater.class}
 )
 public class StagingDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	protected void doClone() throws Exception {
+	public void execute() throws Exception {
 		if (!CloningPropsValues.
 				STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA) {
 
