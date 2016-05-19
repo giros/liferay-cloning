@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 public class PasswordPolicyCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	public void execute() throws Exception {
+	protected void doExecute() throws Exception {
 		if (!CloningPropsValues.
 				PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES) {
 

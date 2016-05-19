@@ -43,7 +43,7 @@ import org.osgi.service.component.annotations.Reference;
 public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	public void execute() throws Exception {
+	protected void doExecute() throws Exception {
 		if (!CloningPropsValues.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA) {
 			return;
 		}

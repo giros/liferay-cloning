@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 public class StagingDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	public void execute() throws Exception {
+	protected void doExecute() throws Exception {
 		if (!CloningPropsValues.
 				STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA) {
 

@@ -30,7 +30,7 @@ import org.osgi.service.component.annotations.Reference;
 public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
-	public void execute() throws Exception {
+	protected void doExecute() throws Exception {
 		if (!CloningPropsValues.
 				VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS) {
 
