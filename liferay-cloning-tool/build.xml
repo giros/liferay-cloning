@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<project basedir="." default="cloning" name="liferay-cloning">
+	<target name="upgrade">
+		<path id="lib.classpath">
+		   <fileset dir="$TOMCAT_HOME/lib" includes="*.jar" />
+		   <fileset dir="$TOMCAT_HOME/lib/ext" includes="*.jar" />
+		   <fileset dir="$TOMCAT_HOME/bin" includes="*.jar" />
+		   <fileset dir="$TOMCAT_HOME/webapps/ROOT/WEB-INF/lib" includes="*.jar" />
+		</path>
+
+		<java
+			classname="com.liferay.cloning.executor.CloningExecutor"
+			classpathref="lib.classpath"
+			fork="true"
+			maxmemory="1024m"
+			newenvironment="true"
+		>
+			<jvmarg value="-Dfile.encoding=UTF-8" />
+			<jvmarg value="-Duser.country=US" />
+			<jvmarg value="-Duser.language=en" />
+			<jvmarg value="-Duser.timezone=GMT" />
+			<jvmarg value="-XX:MaxPermSize=256m" />
+		</java>
+	</target>
+</project>
