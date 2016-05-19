@@ -31,6 +31,12 @@ public class CloningPropsValues {
 
 	public static final boolean PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES));
 
+	public static final String[] STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_CONNECTIONS =  StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_CONNECTIONS));
+
+	public static final String[] STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_CONNECTIONS =  StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_CONNECTIONS));
+
+	public static final boolean STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA));
+
 	public static final boolean USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA));
 
 	public static final String[] VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS = StringUtil.splitLines(PropsUtil.get(CloningPropsKeys.VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS));
