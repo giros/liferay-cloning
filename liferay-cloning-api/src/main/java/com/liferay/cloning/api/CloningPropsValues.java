@@ -16,7 +16,7 @@ package com.liferay.cloning.api;
 
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.util.PropsUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 /**
  * @author Gergely Mathe
