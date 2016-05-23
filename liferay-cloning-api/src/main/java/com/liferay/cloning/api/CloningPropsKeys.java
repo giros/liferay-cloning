@@ -27,15 +27,23 @@ public interface CloningPropsKeys {
 
 	public static final String PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES = "password.policy.cloning.updater.delete.password.policies";
 
-	public static final String STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_CONNECTIONS = "staging.data.cloning.updater.new.remote.connections";
+	public static final String STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_GROUPID = "staging.data.cloning.updater.new.remote.GROUPID";
 
-	public static final String STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_CONNECTIONS = "staging.data.cloning.updater.old.remote.connections";
+	public static final String STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_HOST = "staging.data.cloning.updater.new.remote.host";
+
+	public static final String STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_PORT = "staging.data.cloning.updater.new.remote.port";
+
+	public static final String STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_GROUPID = "staging.data.cloning.updater.old.remote.groupid";
+
+	public static final String STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_HOSTS = "staging.data.cloning.updater.old.remote.hosts";
+
+	public static final String STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_PORT = "staging.data.cloning.updater.old.remote.port";
 
 	public static final String STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA = "staging.data.cloning.updater.update.staging.data";
 
 	public static final String USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA = "user.data.cloning.updater.update.user.data";
 
-	public static final String VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS = "virtual.host.cloning.updater.new.virtual.hosts";
+	public static final String VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOST = "virtual.host.cloning.updater.new.virtual.host";
 
 	public static final String VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS = "virtual.host.cloning.updater.old.virtual.hosts";
 

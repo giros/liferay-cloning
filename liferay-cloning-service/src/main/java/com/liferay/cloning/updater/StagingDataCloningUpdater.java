@@ -18,9 +18,10 @@ import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
-import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+
+import com.germinus.easyconf.Filter;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,13 +42,9 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 			return;
 		}
 
-		String[] oldRemoteConnections =
+		String[] oldRemoteHosts =
 			CloningPropsValues.
-				STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_CONNECTIONS;
-
-		String[] newRemoteConnections =
-			CloningPropsValues.
-				STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_CONNECTIONS;
+				STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_HOSTS;
 
 		ActionableDynamicQuery groupActionableDynamicQuery =
 			_groupLocalService.getActionableDynamicQuery();
@@ -69,23 +66,58 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 						return;
 					}
 
-					for (int i = 0; i < oldRemoteConnections.length; i++) {
-						String[] oldRemoteConnection = StringUtil.split(
-							oldRemoteConnections[i], StringPool.POUND);
-
-						if (!remoteAddress.equals(oldRemoteConnection[0])) {
+					for (String oldRemoteHost : oldRemoteHosts) {
+						if (!remoteAddress.equals(oldRemoteHost)) {
 							continue;
 						}
 
-						String[] newRemoteConnection = StringUtil.split(
-							newRemoteConnections[i], StringPool.POUND);
+						Filter filter = Filter.by(oldRemoteHost);
+
+						String oldRemotePort = PropsUtil.get(
+							CloningPropsValues.
+								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_PORT,
+							filter);
+
+						String remotePort = typeSettingsProperties.getProperty(
+							"remotePort");
+
+						if (!remotePort.equals(oldRemotePort)) {
+							continue;
+						}
+
+						String oldRemoteGroupId = PropsUtil.get(
+							CloningPropsValues.
+								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_GROUPID,
+							filter);
+
+						String remoteGroupId =
+							typeSettingsProperties.getProperty("remoteGroupId");
+
+						if (!remoteGroupId.equals(oldRemoteGroupId)) {
+							continue;
+						}
+
+						String newRemoteHost = PropsUtil.get(
+							CloningPropsValues.
+								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_HOST,
+							filter);
+
+						String newRemotePort = PropsUtil.get(
+							CloningPropsValues.
+								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_PORT,
+							filter);
+
+						String newRemoteGroupId = PropsUtil.get(
+							CloningPropsValues.
+								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_GROUPID,
+							filter);
 
 						typeSettingsProperties.setProperty(
-							"remoteAddress", newRemoteConnection[0]);
+							"remoteAddress", newRemoteHost);
 						typeSettingsProperties.setProperty(
-							"remotePort", newRemoteConnection[1]);
+							"remotePort", newRemotePort);
 						typeSettingsProperties.setProperty(
-							"remoteGroupId", newRemoteConnection[2]);
+							"remoteGroupId", newRemoteGroupId);
 
 						_groupLocalService.updateGroup(
 							group.getGroupId(),

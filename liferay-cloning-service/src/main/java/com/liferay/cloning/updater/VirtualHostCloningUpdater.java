@@ -17,6 +17,10 @@ package com.liferay.cloning.updater;
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import com.germinus.easyconf.Filter;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,21 +43,29 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 		String[] oldVirtualHosts =
 			CloningPropsValues.VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS;
-		String[] newVirtualHosts =
-			CloningPropsValues.VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOSTS;
 
-		for (int i = 0; i < oldVirtualHosts.length; i++) {
-			VirtualHost virtualHost =
-				_virtualHostLocalService.fetchfetchVirtualHost(
-					oldVirtualHosts[i]);
+		for (String oldVirtualHost : oldVirtualHosts) {
+			VirtualHost virtualHost = _virtualHostLocalService.fetchVirtualHost(
+				oldVirtualHost);
 
 			if (virtualHost == null) {
 				continue;
 			}
 
+			Filter filter = Filter.by(oldVirtualHost);
+
+			String newVirtualHost = PropsUtil.get(
+				CloningPropsValues.
+					VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOST,
+				filter);
+
+			if (Validator.isNull(newVirtualHost)) {
+				continue;
+			}
+
 			_virtualHostLocalService.updateVirtualHost(
 				virtualHost.getCompanyId(), virtualHost.getLayoutSetId(),
-				newVirtualHosts[i]);
+				newVirtualHost);
 		}
 	}
 
