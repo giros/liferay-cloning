@@ -14,6 +14,7 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.RequiredPasswordPolicyException;

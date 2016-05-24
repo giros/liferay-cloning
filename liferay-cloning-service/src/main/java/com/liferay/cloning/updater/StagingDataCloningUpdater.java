@@ -15,11 +15,14 @@
 package src.main.java.com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
+import com.liferay.cloning.api.CloningStep;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.Validator;
 
 import com.germinus.easyconf.Filter;
 
@@ -42,7 +45,7 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 			return;
 		}
 
-		String[] oldRemoteHosts =
+		final String[] oldRemoteHosts =
 			CloningPropsValues.
 				STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_HOSTS;
 

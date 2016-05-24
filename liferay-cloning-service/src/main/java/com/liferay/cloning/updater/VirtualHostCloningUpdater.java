@@ -15,6 +15,7 @@
 package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
+import com.liferay.cloning.api.CloningStep;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;

@@ -52,7 +52,7 @@ public class CloningExecutor {
 		}
 	}
 
-	protected void executeCloningSteps() throws Exception {
+	protected static void executeCloningSteps() throws Exception {
 		_passwordCloningUpdater.execute();
 		_passwordPolicyCloningUpdater.execute();
 		_stagingDataCloningUpdater.execute();
@@ -90,15 +90,15 @@ public class CloningExecutor {
 
 	@Reference(unbind = "-")
 	protected void setVirtualHostCloningUpdater(
-		VirtualHostCloningUpdater passwordCloningUpdater) {
+		VirtualHostCloningUpdater virtualHostCloningUpdater) {
 
 		_virtualHostCloningUpdater = virtualHostCloningUpdater;
 	}
 
-	private PasswordCloningUpdater _passwordCloningUpdater;
-	private PasswordPolicyCloningUpdater _passwordPolicyCloningUpdater;
-	private StagingDataCloningUpdater _stagingDataCloningUpdater;
-	private UserDataCloningUpdater _userDataCloningUpdater;
-	private VirtualHostCloningUpdater _virtualHostCloningUpdater;
+	private static PasswordCloningUpdater _passwordCloningUpdater;
+	private static PasswordPolicyCloningUpdater _passwordPolicyCloningUpdater;
+	private static StagingDataCloningUpdater _stagingDataCloningUpdater;
+	private static UserDataCloningUpdater _userDataCloningUpdater;
+	private static VirtualHostCloningUpdater _virtualHostCloningUpdater;
 
 }
