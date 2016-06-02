@@ -29,6 +29,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
+	property = {"cloning.step.priority=0"},
 	service = {CloningStep.class, PasswordCloningUpdater.class}
 )
 public class PasswordCloningUpdater extends BaseCloningUpdater {

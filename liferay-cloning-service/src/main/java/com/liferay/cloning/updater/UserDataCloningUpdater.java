@@ -39,6 +39,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Gergely Mathe
  */
 @Component(
+	property = {"cloning.step.priority=3"},
 	service = {CloningStep.class, UserDataCloningUpdater.class}
 )
 public class UserDataCloningUpdater extends BaseCloningUpdater {
