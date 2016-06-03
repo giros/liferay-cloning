@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.util.PropsUtil;
  */
 public class CloningPropsValues {
 
+	public static final int CLONING_STEPS_MAX_NUMBER = GetterUtil.getInteger(PropsUtil.get(CloningPropsKeys.CLONING_STEPS_MAX_NUMBER));
+
 	public static final String PASSWORD_CLONING_UPDATER_NEW_PASSWORD = PropsUtil.get(CloningPropsKeys.PASSWORD_CLONING_UPDATER_NEW_PASSWORD);
 
 	public static final boolean PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS = GetterUtil.getBoolean(PropsUtil.get(CloningPropsKeys.PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS));

@@ -19,6 +19,8 @@ package com.liferay.cloning.api;
  */
 public interface CloningPropsKeys {
 
+	public static final String CLONING_STEPS_MAX_NUMBER = "cloning.steps.max.number";
+
 	public static final String PASSWORD_CLONING_UPDATER_NEW_PASSWORD = "password.cloning.updater.new.password";
 
 	public static final String PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS = "password.cloning.updater.update.passwords";

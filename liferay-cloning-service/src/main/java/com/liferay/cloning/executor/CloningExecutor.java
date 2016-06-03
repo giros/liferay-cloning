@@ -61,15 +61,13 @@ public class CloningExecutor {
 	protected static void executeCloningSteps() throws Exception {
 		Registry registry = RegistryUtil.getRegistry();
 
-		int i = 0;
-
-		while (true) {
+		for (int i = 0; i <= CloningPropsValues.CLONING_STEPS_MAX_NUMBER; i++) {
 			Collection<ServiceReference<CloningStep>> serviceReferences =
 				registry.getServiceReferences(
 					CloningStep.class, "cloning.step.priority=" + i);
 
 			if (serviceReferences.isEmpty()) {
-				break;
+				continue;
 			}
 
 			Iterator<ServiceReference<CloningStep>> iterator =
@@ -84,8 +82,6 @@ public class CloningExecutor {
 
 				cloningStep.execute();
 			}
-
-			i++;
 		}
 	}
 
