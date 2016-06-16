@@ -16,12 +16,11 @@ package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import com.germinus.easyconf.Filter;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -54,7 +53,7 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 				continue;
 			}
 
-			Filter filter = Filter.by(oldVirtualHost);
+			Filter filter = new Filter(oldVirtualHost);
 
 			String newVirtualHost = PropsUtil.get(
 				CloningPropsValues.
