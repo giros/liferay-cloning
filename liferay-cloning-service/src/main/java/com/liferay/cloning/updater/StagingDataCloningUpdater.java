@@ -16,6 +16,7 @@ package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -23,8 +24,6 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-
-import com.germinus.easyconf.Filter;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -75,7 +74,7 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 							continue;
 						}
 
-						Filter filter = Filter.by(oldRemoteHost);
+						Filter filter = new Filter(oldRemoteHost);
 
 						String oldRemotePort = PropsUtil.get(
 							CloningPropsValues.
