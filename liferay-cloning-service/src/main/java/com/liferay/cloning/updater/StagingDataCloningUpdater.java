@@ -12,7 +12,7 @@
  * details.
  */
 
-package src.main.java.com.liferay.cloning.updater;
+package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
