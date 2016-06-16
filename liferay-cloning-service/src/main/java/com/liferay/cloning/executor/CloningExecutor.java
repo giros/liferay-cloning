@@ -25,13 +25,12 @@ import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.util.InitUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
+import com.liferay.registry.ServiceReference;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.time.StopWatch;
-
-import org.osgi.framework.ServiceReference;
 
 /**
  * @author Gergely Mathe
