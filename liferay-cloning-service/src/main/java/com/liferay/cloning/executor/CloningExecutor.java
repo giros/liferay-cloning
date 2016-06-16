@@ -14,6 +14,7 @@
 
 package com.liferay.cloning.executor;
 
+import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
 import com.liferay.cloning.updater.PasswordCloningUpdater;
 import com.liferay.cloning.updater.PasswordPolicyCloningUpdater;
