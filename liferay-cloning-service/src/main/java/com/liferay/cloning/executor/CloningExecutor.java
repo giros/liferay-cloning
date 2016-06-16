@@ -28,7 +28,7 @@ import com.liferay.registry.RegistryUtil;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 
 import org.osgi.framework.ServiceReference;
 
