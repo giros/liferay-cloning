@@ -16,13 +16,11 @@ package com.liferay.cloning.executor;
 
 import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.cloning.updater.PasswordCloningUpdater;
-import com.liferay.cloning.updater.PasswordPolicyCloningUpdater;
-import com.liferay.cloning.updater.StagingDataCloningUpdater;
-import com.liferay.cloning.updater.UserDataCloningUpdater;
-import com.liferay.cloning.updater.VirtualHostCloningUpdater;
+import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
+import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.util.InitUtil;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 import com.liferay.registry.ServiceReference;
@@ -32,18 +30,21 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.time.StopWatch;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Gergely Mathe
  */
-public class CloningExecutor {
+@Component(immediate = true, service = PortalInstanceLifecycleListener.class)
+public class CloningExecutor extends BasePortalInstanceLifecycleListener {
 
-	public static void main(String[] args) {
+	@Override
+	public void portalInstanceRegistered(Company company) throws Exception {
 		try {
 			StopWatch stopWatch = new StopWatch();
 
 			stopWatch.start();
-
-			InitUtil.initWithSpring(true, false);
 
 			executeCloningSteps();
 
@@ -83,6 +84,11 @@ public class CloningExecutor {
 				cloningStep.execute();
 			}
 		}
+	}
+
+	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
+	protected void setModuleServiceLifecycle(
+		ModuleServiceLifecycle moduleServiceLifecycle) {
 	}
 
 }
