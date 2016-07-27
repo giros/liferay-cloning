@@ -87,6 +87,8 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 			});
 
 		userActionableDynamicQuery.performActions();
+
+		System.out.println("\nCompleted UserDataCloningUpdater.");
 	}
 
 	@Reference(unbind = "-")

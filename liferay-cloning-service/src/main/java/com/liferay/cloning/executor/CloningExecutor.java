@@ -56,7 +56,7 @@ public class CloningExecutor extends BasePortalInstanceLifecycleListener {
 		for (int i = 0; i <= CloningPropsValues.CLONING_STEPS_MAX_NUMBER; i++) {
 			Collection<ServiceReference<CloningStep>> serviceReferences =
 				registry.getServiceReferences(
-					CloningStep.class, "cloning.step.priority=" + i);
+					CloningStep.class, "(cloning.step.priority=" + i + ")");
 
 			if (serviceReferences.isEmpty()) {
 				continue;

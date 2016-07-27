@@ -68,6 +68,8 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 				virtualHost.getCompanyId(), virtualHost.getLayoutSetId(),
 				newVirtualHost);
 		}
+
+		System.out.println("\nCompleted VirtualHostCloningUpdater.");
 	}
 
 	@Reference(unbind = "-")

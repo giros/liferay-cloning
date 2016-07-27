@@ -131,6 +131,8 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 			});
 
 		groupActionableDynamicQuery.performActions();
+
+		System.out.println("\nCompleted StagingDataCloningUpdater.");
 	}
 
 	@Reference(unbind = "-")

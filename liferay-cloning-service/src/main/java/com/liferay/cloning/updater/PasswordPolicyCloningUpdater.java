@@ -55,6 +55,8 @@ public class PasswordPolicyCloningUpdater extends BaseCloningUpdater {
 			catch (RequiredPasswordPolicyException rppe) {
 			}
 		}
+
+		System.out.println("\nCompleted PasswordPolicyCloningUpdater.");
 	}
 
 	@Reference(unbind = "-")

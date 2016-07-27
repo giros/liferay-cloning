@@ -52,6 +52,8 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 			_userLocalService.updatePassword(
 				user.getUserId(), newPassword, newPassword, false, true);
 		}
+
+		System.out.println("\nCompleted PasswordCloningUpdater.");
 	}
 
 	@Reference(unbind = "-")
