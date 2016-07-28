@@ -14,8 +14,8 @@
 
 package com.liferay.cloning.updater;
 
-import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.configuration.CloningConfigurationValues;
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
@@ -36,14 +36,15 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningPropsValues.
+		if (!CloningConfigurationValues.
 				VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS) {
 
 			return;
 		}
 
 		String[] oldVirtualHosts =
-			CloningPropsValues.VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS;
+			CloningConfigurationValues.
+				VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS;
 
 		for (String oldVirtualHost : oldVirtualHosts) {
 			VirtualHost virtualHost = _virtualHostLocalService.fetchVirtualHost(
@@ -56,7 +57,7 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 			Filter filter = new Filter(oldVirtualHost);
 
 			String newVirtualHost = PropsUtil.get(
-				CloningPropsValues.
+				CloningConfigurationValues.
 					VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOST,
 				filter);
 

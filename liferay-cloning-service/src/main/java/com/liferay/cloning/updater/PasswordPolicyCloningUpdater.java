@@ -14,8 +14,8 @@
 
 package com.liferay.cloning.updater;
 
-import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.configuration.CloningConfigurationValues;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.RequiredPasswordPolicyException;
 import com.liferay.portal.kernel.model.PasswordPolicy;
@@ -37,7 +37,7 @@ public class PasswordPolicyCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningPropsValues.
+		if (!CloningConfigurationValues.
 				PASSWORD_POLICY_CLONING_UPDATER_DELETE_PASSWORD_POLICIES) {
 
 			return;

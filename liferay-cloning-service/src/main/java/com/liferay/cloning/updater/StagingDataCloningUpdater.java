@@ -14,8 +14,8 @@
 
 package com.liferay.cloning.updater;
 
-import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.configuration.CloningConfigurationValues;
 import com.liferay.portal.kernel.configuration.Filter;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -39,14 +39,14 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningPropsValues.
+		if (!CloningConfigurationValues.
 				STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA) {
 
 			return;
 		}
 
 		final String[] oldRemoteHosts =
-			CloningPropsValues.
+			CloningConfigurationValues.
 				STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_HOSTS;
 
 		ActionableDynamicQuery groupActionableDynamicQuery =
@@ -77,7 +77,7 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 						Filter filter = new Filter(oldRemoteHost);
 
 						String oldRemotePort = PropsUtil.get(
-							CloningPropsValues.
+							CloningConfigurationValues.
 								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_PORT,
 							filter);
 
@@ -89,7 +89,7 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 						}
 
 						String oldRemoteGroupId = PropsUtil.get(
-							CloningPropsValues.
+							CloningConfigurationValues.
 								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_GROUPID,
 							filter);
 
@@ -101,17 +101,17 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 						}
 
 						String newRemoteHost = PropsUtil.get(
-							CloningPropsValues.
+							CloningConfigurationValues.
 								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_HOST,
 							filter);
 
 						String newRemotePort = PropsUtil.get(
-							CloningPropsValues.
+							CloningConfigurationValues.
 								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_PORT,
 							filter);
 
 						String newRemoteGroupId = PropsUtil.get(
-							CloningPropsValues.
+							CloningConfigurationValues.
 								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_GROUPID,
 							filter);
 

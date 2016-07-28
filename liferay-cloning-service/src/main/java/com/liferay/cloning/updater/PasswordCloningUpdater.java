@@ -14,8 +14,8 @@
 
 package com.liferay.cloning.updater;
 
-import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.configuration.CloningConfigurationValues;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -36,15 +36,17 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningPropsValues.PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS) {
+		if (!CloningConfigurationValues.
+				PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS) {
+
 			return;
 		}
 
 		String newPassword =
-			CloningPropsValues.PASSWORD_CLONING_UPDATER_NEW_PASSWORD;
+			CloningConfigurationValues.PASSWORD_CLONING_UPDATER_NEW_PASSWORD;
 
 		List<String> userIds = ListUtil.toList(
-			CloningPropsValues.PASSWORD_CLONING_UPDATER_USER_IDS); 
+			CloningConfigurationValues.PASSWORD_CLONING_UPDATER_USER_IDS); 
 
 		for (String userId : userIds) {
 			User user = _userLocalService.fetchUserById(Long.valueOf(userId));

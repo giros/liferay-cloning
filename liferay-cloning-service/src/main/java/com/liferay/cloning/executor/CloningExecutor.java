@@ -14,8 +14,8 @@
 
 package com.liferay.cloning.executor;
 
-import com.liferay.cloning.api.CloningPropsValues;
 import com.liferay.cloning.api.CloningStep;
+import com.liferay.cloning.configuration.CloningConfigurationValues;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
 import com.liferay.portal.kernel.model.Company;
@@ -53,7 +53,7 @@ public class CloningExecutor extends BasePortalInstanceLifecycleListener {
 	protected static void executeCloningSteps() throws Exception {
 		Registry registry = RegistryUtil.getRegistry();
 
-		for (int i = 0; i <= CloningPropsValues.CLONING_STEPS_MAX_NUMBER; i++) {
+		for (int i = 0; i <= CloningConfigurationValues.CLONING_STEPS_MAX_NUMBER; i++) {
 			Collection<ServiceReference<CloningStep>> serviceReferences =
 				registry.getServiceReferences(
 					CloningStep.class, "(cloning.step.priority=" + i + ")");
