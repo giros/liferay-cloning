@@ -75,7 +75,7 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 							contact.getFirstName(), contact.getMiddleName(),
 							contact.getLastName(), contact.getPrefixId(),
 							contact.getSuffixId(),
-							contact.getMale(), 0, 0, 0,
+							contact.getMale(), 0, 1, 1970,
 							StringPool.BLANK, StringPool.BLANK,
 							StringPool.BLANK, StringPool.BLANK,
 							StringPool.BLANK, contact.getJobTitle());
