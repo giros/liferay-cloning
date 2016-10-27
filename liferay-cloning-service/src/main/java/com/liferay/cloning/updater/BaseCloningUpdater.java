@@ -21,8 +21,6 @@ import com.liferay.cloning.api.CloningStep;
  */
 public abstract class BaseCloningUpdater implements CloningStep {
 
-	public int BATCH_SIZE = 500;
-
 	public void execute() throws Exception {
 		doExecute();
 	}

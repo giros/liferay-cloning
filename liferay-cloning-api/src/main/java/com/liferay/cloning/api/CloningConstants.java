@@ -12,27 +12,16 @@
  * details.
  */
 
-package com.liferay.cloning.configuration;
-
-import com.liferay.portal.kernel.configuration.Configuration;
-import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
+package com.liferay.cloning.api;
 
 /**
  * @author Gergely Mathe
  */
-public class CloningConfigurationUtil {
+public class CloningConstants {
 
-	public static String get(String key) {
-		return _configuration.get(key);
-	}
+	public static final String STATUS_COMPLETE = "COMPLETE";
 
-	public static String[] getArray(String key) {
-		return _configuration.getArray(key);
-	}
+	public static final String STATUS_FAILED = "FAILED";
 
-	private static final Configuration _configuration =
-		ConfigurationFactoryUtil.getConfiguration(
-			CloningConfigurationUtil.class.getClassLoader(),
-			"cloning");
-
+	public static final String STATUS_POSTFIX = "#STATUS";
 }

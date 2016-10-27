@@ -15,24 +15,28 @@
 package com.liferay.cloning.updater;
 
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.cloning.configuration.CloningConfigurationValues;
+import com.liferay.cloning.configuration.CloningConfiguration;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Contact;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.service.AddressLocalService;
 import com.liferay.portal.kernel.service.ContactLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringPool;
 
-import java.util.List;
+import aQute.bnd.annotation.metatype.Configurable;
 
+import java.util.List;
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -40,22 +44,22 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {"cloning.step.priority=40"},
-	service = {CloningStep.class, UserDataCloningUpdater.class}
+	service = {CloningStep.class, UserDataCloningUpdater.class},
+	configurationPid = "com.liferay.cloning.configuration.CloningConfiguration"
 )
 public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningConfigurationValues.
-				USER_DATA_CLONING_UPDATER_UPDATE_USER_DATA) {
-
+		if (!_cloningConfiguration.userDataCloningUpdaterUpdateUserData()) {
 			return;
 		}
 
 		ActionableDynamicQuery userActionableDynamicQuery =
 			_userLocalService.getActionableDynamicQuery();
 
-		userActionableDynamicQuery.setInterval(BATCH_SIZE);
+		userActionableDynamicQuery.setInterval(
+			_cloningConfiguration.baseCloningUpdaterBatchSize());
 
 		userActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<User>() {
@@ -90,7 +94,14 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 
 		userActionableDynamicQuery.performActions();
 
-		System.out.println("\nCompleted UserDataCloningUpdater.");
+		_log.info("Completed UserDataCloningUpdater.");
+	}
+
+	@Activate
+	@Modified
+	protected void readConfiguration(Map<String, Object> properties) {
+		_cloningConfiguration = Configurable.createConfigurable(
+			CloningConfiguration.class, properties);
 	}
 
 	@Reference(unbind = "-")
@@ -112,6 +123,10 @@ public class UserDataCloningUpdater extends BaseCloningUpdater {
 		_userLocalService = userLocalService;
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserDataCloningUpdater.class);
+
+	private static CloningConfiguration _cloningConfiguration;
 	private AddressLocalService _addressLocalService;
 	private ContactLocalService _contactLocalService;
 	private UserLocalService _userLocalService;

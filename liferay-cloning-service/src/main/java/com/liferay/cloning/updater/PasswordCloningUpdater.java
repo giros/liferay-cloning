@@ -14,15 +14,28 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningException;
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.cloning.configuration.CloningConfigurationValues;
+import com.liferay.cloning.configuration.CloningConfiguration;
+import com.liferay.cloning.executor.CloningExecutor;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import aQute.bnd.annotation.metatype.Configurable;
 
 import java.util.List;
+import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -30,32 +43,57 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {"cloning.step.priority=10"},
-	service = {CloningStep.class, PasswordCloningUpdater.class}
+	service = {CloningStep.class, PasswordCloningUpdater.class},
+	configurationPid = "com.liferay.cloning.configuration.CloningConfiguration"
 )
 public class PasswordCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningConfigurationValues.
-				PASSWORD_CLONING_UPDATER_UPDATE_PASSWORDS) {
-
+		if (!_cloningConfiguration.passwordCloningUpdaterUpdatePasswords()) {
 			return;
 		}
 
 		String newPassword =
-			CloningConfigurationValues.PASSWORD_CLONING_UPDATER_NEW_PASSWORD;
+			_cloningConfiguration.passwordCloningUpdaterNewPassword();
 
-		List<String> userIds = ListUtil.toList(
-			CloningConfigurationValues.PASSWORD_CLONING_UPDATER_USER_IDS); 
-
-		for (String userId : userIds) {
-			User user = _userLocalService.fetchUserById(Long.valueOf(userId));
-
-			_userLocalService.updatePassword(
-				user.getUserId(), newPassword, newPassword, false, true);
+		if (Validator.isNull(newPassword)) {
+			throw new CloningException("New password is not defined.");
 		}
 
-		System.out.println("\nCompleted PasswordCloningUpdater.");
+		long[] userIds = _cloningConfiguration.passwordCloningUpdaterUserIds();
+
+		ActionableDynamicQuery userActionableDynamicQuery =
+			_userLocalService.getActionableDynamicQuery();
+
+		userActionableDynamicQuery.setInterval(
+			_cloningConfiguration.baseCloningUpdaterBatchSize());
+
+		userActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<User>() {
+
+				@Override
+				public void performAction(User user) throws PortalException {
+					if (ArrayUtil.isEmpty(userIds) ||
+						ArrayUtil.contains(userIds, user.getUserId())) {
+
+						_userLocalService.updatePassword(
+							user.getUserId(), newPassword, newPassword, false,
+							true);
+					}
+				}
+			});
+
+		userActionableDynamicQuery.performActions();
+
+		_log.info("Completed PasswordCloningUpdater.");
+	}
+
+	@Activate
+	@Modified
+	protected void readConfiguration(Map<String, Object> properties) {
+		_cloningConfiguration = Configurable.createConfigurable(
+			CloningConfiguration.class, properties);
 	}
 
 	@Reference(unbind = "-")
@@ -63,6 +101,10 @@ public class PasswordCloningUpdater extends BaseCloningUpdater {
 		_userLocalService = userLocalService;
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		PasswordCloningUpdater.class);
+
+	private CloningConfiguration _cloningConfiguration;
 	private UserLocalService _userLocalService;
 
 }

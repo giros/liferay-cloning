@@ -14,15 +14,23 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningException;
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.cloning.configuration.CloningConfigurationValues;
-import com.liferay.portal.kernel.configuration.Filter;
+import com.liferay.cloning.configuration.CloningConfiguration;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import aQute.bnd.annotation.metatype.Configurable;
+
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -30,36 +38,40 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {"cloning.step.priority=50"},
-	service = {CloningStep.class, VirtualHostCloningUpdater.class}
+	service = {CloningStep.class, VirtualHostCloningUpdater.class},
+	configurationPid = "com.liferay.cloning.configuration.CloningConfiguration"
 )
 public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningConfigurationValues.
-				VIRTUAL_HOST_CLONING_UPDATER_UPDATE_VIRTUAL_HOSTS) {
+		if (!_cloningConfiguration.
+				virtualHostCloningUpdaterUpdateVirtualHosts()) {
 
 			return;
 		}
 
 		String[] oldVirtualHosts =
-			CloningConfigurationValues.
-				VIRTUAL_HOST_CLONING_UPDATER_OLD_VIRTUAL_HOSTS;
+			_cloningConfiguration.virtualHostCloningUpdaterOldVirtualHosts();
 
-		for (String oldVirtualHost : oldVirtualHosts) {
+		String[] newVirtualHosts =
+			_cloningConfiguration.virtualHostCloningUpdaterNewVirtualHosts();
+
+		if (oldVirtualHosts.length != newVirtualHosts.length) {
+			throw new CloningException(
+				"The number of oldVirtualHosts and newVirtualHosts are " +
+				"different.");
+		}
+
+		for (int i = 0; i < oldVirtualHosts.length; i++) {
 			VirtualHost virtualHost = _virtualHostLocalService.fetchVirtualHost(
-				oldVirtualHost);
+				oldVirtualHosts[i]);
 
 			if (virtualHost == null) {
 				continue;
 			}
 
-			Filter filter = new Filter(oldVirtualHost);
-
-			String newVirtualHost = PropsUtil.get(
-				CloningConfigurationValues.
-					VIRTUAL_HOST_CLONING_UPDATER_NEW_VIRTUAL_HOST,
-				filter);
+			String newVirtualHost = newVirtualHosts[i];
 
 			if (Validator.isNull(newVirtualHost)) {
 				continue;
@@ -70,7 +82,14 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 				newVirtualHost);
 		}
 
-		System.out.println("\nCompleted VirtualHostCloningUpdater.");
+		_log.info("Completed VirtualHostCloningUpdater.");
+	}
+
+	@Activate
+	@Modified
+	protected void readConfiguration(Map<String, Object> properties) {
+		_cloningConfiguration = Configurable.createConfigurable(
+			CloningConfiguration.class, properties);
 	}
 
 	@Reference(unbind = "-")
@@ -80,6 +99,10 @@ public class VirtualHostCloningUpdater extends BaseCloningUpdater {
 		_virtualHostLocalService = virtualHostLocalService;
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		VirtualHostCloningUpdater.class);
+
+	private static CloningConfiguration _cloningConfiguration;
 	private VirtualHostLocalService _virtualHostLocalService;
 
 }

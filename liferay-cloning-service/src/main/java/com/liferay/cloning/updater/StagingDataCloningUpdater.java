@@ -14,18 +14,26 @@
 
 package com.liferay.cloning.updater;
 
+import com.liferay.cloning.api.CloningException;
 import com.liferay.cloning.api.CloningStep;
-import com.liferay.cloning.configuration.CloningConfigurationValues;
-import com.liferay.portal.kernel.configuration.Filter;
+import com.liferay.cloning.configuration.CloningConfiguration;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 
+import aQute.bnd.annotation.metatype.Configurable;
+
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -33,26 +41,55 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	property = {"cloning.step.priority=30"},
-	service = {CloningStep.class, StagingDataCloningUpdater.class}
+	service = {CloningStep.class, StagingDataCloningUpdater.class},
+	configurationPid = "com.liferay.cloning.configuration.CloningConfiguration"
 )
 public class StagingDataCloningUpdater extends BaseCloningUpdater {
 
 	@Override
 	protected void doExecute() throws Exception {
-		if (!CloningConfigurationValues.
-				STAGING_DATA_CLONING_UPDATER_UPDATE_STAGING_DATA) {
+		if (!_cloningConfiguration.
+				stagingDataCloningUpdaterUpdateStagingData()) {
 
 			return;
 		}
 
-		final String[] oldRemoteHosts =
-			CloningConfigurationValues.
-				STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_HOSTS;
+		String[] oldRemoteHosts =
+			_cloningConfiguration.stagingDataCloningUpdaterOldRemoteHosts();
+
+		long[] oldRemotePorts =
+			_cloningConfiguration.stagingDataCloningUpdaterOldRemotePorts();
+
+		long[] oldRemoteGroupIds =
+			_cloningConfiguration.stagingDataCloningUpdaterOldRemoteGroupIds();
+
+		String[] newRemoteHosts =
+			_cloningConfiguration.stagingDataCloningUpdaterNewRemoteHosts();
+
+		long[] newRemotePorts =
+			_cloningConfiguration.stagingDataCloningUpdaterNewRemotePorts();
+
+		long[] newRemoteGroupIds =
+			_cloningConfiguration.stagingDataCloningUpdaterNewRemoteGroupIds();
+
+		if (oldRemoteHosts == null) {
+			return;
+		}
+
+		if ((oldRemoteHosts.length != newRemoteHosts.length) ||
+			(oldRemotePorts.length != newRemotePorts.length) ||
+			(oldRemoteGroupIds.length != newRemoteGroupIds.length)) {
+
+			throw new CloningException(
+				"The number of old and new remote hosts/ports/groupIds are " +
+				"different.");
+		}
 
 		ActionableDynamicQuery groupActionableDynamicQuery =
 			_groupLocalService.getActionableDynamicQuery();
 
-		groupActionableDynamicQuery.setInterval(BATCH_SIZE);
+		groupActionableDynamicQuery.setInterval(
+			_cloningConfiguration.baseCloningUpdaterBatchSize());
 
 		groupActionableDynamicQuery.setPerformActionMethod(
 			new ActionableDynamicQuery.PerformActionMethod<Group>() {
@@ -69,17 +106,15 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 						return;
 					}
 
-					for (String oldRemoteHost : oldRemoteHosts) {
+					for (int i = 0; i < oldRemoteHosts.length; i++) {
+						String oldRemoteHost = oldRemoteHosts[i];
+
 						if (!remoteAddress.equals(oldRemoteHost)) {
 							continue;
 						}
 
-						Filter filter = new Filter(oldRemoteHost);
-
-						String oldRemotePort = PropsUtil.get(
-							CloningConfigurationValues.
-								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_PORT,
-							filter);
+						String oldRemotePort = String.valueOf(
+							oldRemotePorts[i]);
 
 						String remotePort = typeSettingsProperties.getProperty(
 							"remotePort");
@@ -88,10 +123,8 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 							continue;
 						}
 
-						String oldRemoteGroupId = PropsUtil.get(
-							CloningConfigurationValues.
-								STAGING_DATA_CLONING_UPDATER_OLD_REMOTE_GROUPID,
-							filter);
+						String oldRemoteGroupId = String.valueOf(
+							oldRemoteGroupIds[i]);
 
 						String remoteGroupId =
 							typeSettingsProperties.getProperty("remoteGroupId");
@@ -100,20 +133,13 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 							continue;
 						}
 
-						String newRemoteHost = PropsUtil.get(
-							CloningConfigurationValues.
-								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_HOST,
-							filter);
+						String newRemoteHost = newRemoteHosts[i];
 
-						String newRemotePort = PropsUtil.get(
-							CloningConfigurationValues.
-								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_PORT,
-							filter);
+						String newRemotePort = String.valueOf(
+							newRemotePorts[i]);
 
-						String newRemoteGroupId = PropsUtil.get(
-							CloningConfigurationValues.
-								STAGING_DATA_CLONING_UPDATER_NEW_REMOTE_GROUPID,
-							filter);
+						String newRemoteGroupId = String.valueOf(
+							newRemoteGroupIds[i]);
 
 						typeSettingsProperties.setProperty(
 							"remoteAddress", newRemoteHost);
@@ -132,7 +158,14 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 
 		groupActionableDynamicQuery.performActions();
 
-		System.out.println("\nCompleted StagingDataCloningUpdater.");
+		_log.info("Completed StagingDataCloningUpdater.");
+	}
+
+	@Activate
+	@Modified
+	protected void readConfiguration(Map<String, Object> properties) {
+		_cloningConfiguration = Configurable.createConfigurable(
+			CloningConfiguration.class, properties);
 	}
 
 	@Reference(unbind = "-")
@@ -140,6 +173,10 @@ public class StagingDataCloningUpdater extends BaseCloningUpdater {
 		_groupLocalService = groupLocalService;
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		StagingDataCloningUpdater.class);
+
+	private static CloningConfiguration _cloningConfiguration;
 	private GroupLocalService _groupLocalService;
 
 }

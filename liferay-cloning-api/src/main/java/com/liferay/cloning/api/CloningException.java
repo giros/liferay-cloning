@@ -12,23 +12,27 @@
  * details.
  */
 
-package com.liferay.cloning.database;
+package com.liferay.cloning.api;
 
-import com.liferay.cloning.api.CloningStep;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * @author Gergely Mathe
  */
-public class CloningDatabase implements CloningStep {
+public class CloningException extends PortalException {
+	public CloningException() {
+	}
 
-	public void execute() throws Exception {
-		// Read properties from file
+	public CloningException(String msg) {
+		super(msg);
+	}
 
-		// Invoke command for export
+	public CloningException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 
-		// Invoke rsync for copy
-
-		// Invoke command for import
+	public CloningException(Throwable cause) {
+		super(cause);
 	}
 
 }
