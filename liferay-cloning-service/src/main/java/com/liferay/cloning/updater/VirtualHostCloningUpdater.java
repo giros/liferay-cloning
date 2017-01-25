@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.VirtualHost;
 import com.liferay.portal.kernel.service.VirtualHostLocalService;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.metatype.Configurable;

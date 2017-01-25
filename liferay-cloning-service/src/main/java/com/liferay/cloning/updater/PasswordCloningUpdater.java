@@ -17,7 +17,6 @@ package com.liferay.cloning.updater;
 import com.liferay.cloning.api.CloningException;
 import com.liferay.cloning.api.CloningStep;
 import com.liferay.cloning.configuration.CloningConfiguration;
-import com.liferay.cloning.executor.CloningExecutor;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -25,12 +24,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.metatype.Configurable;
 
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
