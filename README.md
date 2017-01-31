@@ -14,7 +14,9 @@ A technical documentation can be found in the documentation folder of the master
 
 # Versioning
 
-The latest version is **1.0.0**. Versioning follows the guidelines of semantic versioning: http://semver.org
+The latest version is **1.0.0**. Bundles are available at https://github.com/giros/liferay-cloning/tree/1.x/bundles/1.0.0
+
+Versioning follows the guidelines of semantic versioning: http://semver.org
 
 # Planned features
 
