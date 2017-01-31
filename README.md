@@ -14,12 +14,13 @@ A technical documentation can be found in the documentation folder of the master
 
 # Versioning
 
-The latest version is 1.0.0. Versioning follows the guidelines of semantic versioning: http://semver.org
+The latest version is **1.0.0**. Versioning follows the guidelines of semantic versioning: http://semver.org
 
 # Planned features
 
-* A simple UI for setting up the configuration instead of manually editing the .cfg file
 * An initial database export/import step that creates a dump of the production database and imports it in the development database
+* An initial bundle copy step that copies the application server files, document library files, etc. from the source to the destination system
+* A simple GUI for setting up the configuration instead of manually editing the .cfg file
 * An option to automatically set up the target development portal in WeDeploy
 
 # Contribute
